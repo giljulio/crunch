@@ -1,0 +1,4 @@
+rootProject.name = 'crunch'
+include 'text-compression'
+include 'text-compression-sample'
+

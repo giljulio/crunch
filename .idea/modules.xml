@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/crunch.iml" filepath="$PROJECT_DIR$/.idea/modules/crunch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/crunch_main.iml" filepath="$PROJECT_DIR$/.idea/modules/crunch_main.iml" group="crunch" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/crunch_test.iml" filepath="$PROJECT_DIR$/.idea/modules/crunch_test.iml" group="crunch" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/text-compression.iml" filepath="$PROJECT_DIR$/.idea/modules/text-compression.iml" group="text-compression" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/text-compression-sample.iml" filepath="$PROJECT_DIR$/.idea/modules/text-compression-sample.iml" group="text-compression-sample" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/text-compression-sample/text-compression-sample_main.iml" filepath="$PROJECT_DIR$/.idea/modules/text-compression-sample/text-compression-sample_main.iml" group="text-compression-sample" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/text-compression-sample/text-compression-sample_test.iml" filepath="$PROJECT_DIR$/.idea/modules/text-compression-sample/text-compression-sample_test.iml" group="text-compression-sample" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/text-compression/text-compression_main.iml" filepath="$PROJECT_DIR$/.idea/modules/text-compression/text-compression_main.iml" group="text-compression" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/text-compression/text-compression_test.iml" filepath="$PROJECT_DIR$/.idea/modules/text-compression/text-compression_test.iml" group="text-compression" />
+    </modules>
+  </component>
+</project>
