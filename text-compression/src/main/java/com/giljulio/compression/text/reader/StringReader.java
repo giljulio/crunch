@@ -1,11 +1,11 @@
 package com.giljulio.compression.text.reader;
 
-public final class StringCrunchReader implements CrunchReader {
+public final class StringReader implements CrunchReader {
 
     private final char[] chars;
     private int index = 0;
 
-    public StringCrunchReader(String input) {
+    public StringReader(String input) {
         chars = input.toCharArray();
     }
 
