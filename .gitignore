@@ -3,6 +3,8 @@
 
 # User-specific stuff:
 .idea/**/workspace.xml
+.idea/workspace.xml
+.idea/gradle.xml
 .idea/**/tasks.xml
 .idea/dictionaries
 
