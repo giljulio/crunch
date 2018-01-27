@@ -10,9 +10,9 @@ public final class StringReader implements CrunchReader {
     }
 
     @Override
-    public int read() {
+    public char read() {
         if (index >= chars.length) {
-            return -1;
+            return '\u0000';
         }
         return chars[index++];
     }

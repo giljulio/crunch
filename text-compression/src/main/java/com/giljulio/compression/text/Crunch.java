@@ -25,16 +25,16 @@ public final class Crunch {
         private int minimumCharacterReferenceSize = 3;
 
         public Builder searchCharacterBufferSize(int size) {
-            if (size < 0) {
-                throw new IllegalArgumentException("SearchCharacterBufferSize must be >= 0");
+            if (size <= 0) {
+                throw new IllegalArgumentException("SearchCharacterBufferSize must be > 0");
             }
             this.bufferSize = size;
             return this;
         }
 
         public Builder minimumCharacterReferenceSize(int size) {
-            if (size < 0) {
-                throw new IllegalArgumentException("MinimumCharacterReferenceSize must be >= 0");
+            if (size <= 0) {
+                throw new IllegalArgumentException("MinimumCharacterReferenceSize must be > 0");
             }
             this.minimumCharacterReferenceSize = size;
             return this;
