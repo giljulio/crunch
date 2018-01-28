@@ -3,7 +3,6 @@ package com.giljulio.compression.text;
 import com.giljulio.compression.text.reader.CrunchReader;
 import com.giljulio.compression.text.writer.CrunchWriter;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 final class Compressor<T> {
@@ -13,7 +12,8 @@ final class Compressor<T> {
     private final CrunchWriter<T> writer;
 
     private int readerCount = 0;
-    private final ArrayList<Character> characters = new ArrayList<>();
+    private final LinkedList<Character> characterBuffer = new LinkedList<>();
+    private int characterBufferStartIndex = 0;
     private final LinkedList<Character> readerBuffer = new LinkedList<>();
 
     Compressor(Crunch crunch, CrunchReader reader, CrunchWriter<T> writer) {
@@ -22,7 +22,6 @@ final class Compressor<T> {
         this.writer = writer;
     }
 
-    //''she sells sea shells on the sea shore''
     void execute() {
         if (readerCount != 0) {
             throw new IllegalStateException(".compress() must only be executed once.");
@@ -33,8 +32,12 @@ final class Compressor<T> {
         while ((character = getCharacterAt(currentIndex)) != '\u0000') {
             int maxStartIndex = -1;
             int maxLength = 0;
-            for (int i = 0; i < currentIndex - crunch.minimumCharacterReferenceSize; i++) {
-                int length = calculateMax(i, currentIndex);
+
+            int relativeStartIndex = Math.max(currentIndex - crunch.bufferSize, 0);
+            int relativeEndIndex = currentIndex - crunch.minimumCharacterReferenceSize;
+            for (int i = relativeStartIndex; i < relativeEndIndex; i++) {
+                int absoluteSearchIndex = i - characterBufferStartIndex;
+                int length = calculateMax(absoluteSearchIndex, currentIndex);
                 if (length > maxLength && length >= crunch.minimumCharacterReferenceSize) {
                     maxStartIndex = i;
                     maxLength = length;
@@ -45,21 +48,25 @@ final class Compressor<T> {
                 writer.writeCharacter(character);
                 currentIndex++;
                 readerBuffer.removeFirst();
+                characterBuffer.add(character);
             } else {
                 int offset = maxStartIndex - currentIndex;
                 writer.writeReference(offset, maxLength);
                 currentIndex += maxLength;
                 for (int i = 0; i < maxLength; i++) {
-                    readerBuffer.removeFirst();
+                    Character firstCharacter = readerBuffer.removeFirst();
+                    characterBuffer.add(firstCharacter);
                 }
             }
+            cleanCharacterBuffer();
         }
     }
 
     private int calculateMax(int searchIndex, int currentIndex) {
         int counter = 0;
-        while (characters.size() > searchIndex &&
-                characters.get(searchIndex++) == getCharacterAt(currentIndex++)) {
+        while (characterBuffer.size() > searchIndex &&
+                characterBuffer.get(searchIndex++) == getCharacterAt(currentIndex++)) {
+            // TODO: characterBuffer.get(searchIndex) is very inefficient. Replace with custom circular buffer
             counter++;
         }
         return counter;
@@ -71,11 +78,17 @@ final class Compressor<T> {
         }
         while (true) {
             char character = reader.read();
-            characters.add(character);
             readerBuffer.add(character);
             if (index == readerCount++) {
                 return character;
             }
+        }
+    }
+
+    private void cleanCharacterBuffer() {
+        while (characterBuffer.size() > crunch.bufferSize) {
+            characterBuffer.removeFirst();
+            characterBufferStartIndex++;
         }
     }
 }
