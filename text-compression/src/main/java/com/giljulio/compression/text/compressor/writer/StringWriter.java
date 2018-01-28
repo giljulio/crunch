@@ -1,7 +1,7 @@
 package com.giljulio.compression.text.compressor.writer;
 
 /**
- * An in-memory {@link String } writer.
+ * An in-memory {@link String } writer. Useful for debugging compression.
  *
  * Example output:
  *

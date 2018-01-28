@@ -5,6 +5,7 @@ import com.giljulio.compression.text.compressor.reader.PlainTextFileReader;
 import com.giljulio.compression.text.compressor.reader.StringReader;
 import com.giljulio.compression.text.compressor.writer.BinaryFileWriter;
 import com.giljulio.compression.text.compressor.writer.CompressorWriter;
+import com.giljulio.compression.text.compressor.writer.StringWriter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -31,6 +32,18 @@ public final class Crunch {
     }
 
     /**
+     * Compresses in-memory {@link String } to a in-memory {@link String }
+     *
+     * @param source text to compress
+     *
+     * @return compressed text
+     * @throws FileNotFoundException if destination file does not exist
+     */
+    public String compress(String source) throws FileNotFoundException {
+        return compress(new StringReader(source), new StringWriter());
+    }
+
+    /**
      * Compresses in-memory {@link String } to a {@link File }
      *
      * @param text to compress
@@ -46,7 +59,7 @@ public final class Crunch {
     }
 
     /**
-     * Compress from a raw text file to a binary file
+     * Streams compress from a raw text {@link File } to a binary {@link File }
      *
      * @param source raw text file
      * @param destination file to write the compressed binary

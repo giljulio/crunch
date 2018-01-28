@@ -25,22 +25,6 @@ public class FileBitOutputStream implements BitOutputStream {
         }
     }
 
-    private void clearBuffer() {
-        if (n == 0) {
-            return;
-        }
-        if (n > 0) {
-            buffer <<= (8 - n);
-        }
-        try {
-            out.write(buffer);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        n = 0;
-        buffer = 0;
-    }
-
     @Override
     public void flush() {
         clearBuffer();
@@ -59,5 +43,21 @@ public class FileBitOutputStream implements BitOutputStream {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void clearBuffer() {
+        if (n == 0) {
+            return;
+        }
+        if (n > 0) {
+            buffer <<= (8 - n);
+        }
+        try {
+            out.write(buffer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        n = 0;
+        buffer = 0;
     }
 }
