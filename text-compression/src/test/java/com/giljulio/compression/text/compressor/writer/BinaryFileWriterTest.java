@@ -99,18 +99,13 @@ public class BinaryFileWriterTest {
         final ArrayList<Boolean> bits = new ArrayList<>();
 
         @Override
-        public void writeBit(boolean x) {
-            bits.add(x);
-        }
-
-        @Override
-        public void flush() {
-            bits.clear();
+        public void writeBit(boolean bit) {
+            bits.add(bit);
         }
 
         @Override
         public void close() {
-
+            // no-op
         }
 
         boolean isOne(int index) {

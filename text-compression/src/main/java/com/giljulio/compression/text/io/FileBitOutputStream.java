@@ -4,18 +4,19 @@ import java.io.*;
 
 public class FileBitOutputStream implements BitOutputStream {
 
+    private final BufferedOutputStream out;
+
     private int buffer;
     private int n;
-    private BufferedOutputStream out;
 
     public FileBitOutputStream(OutputStream os) {
         out = new BufferedOutputStream(os);
     }
 
     @Override
-    public void writeBit(boolean x) {
+    public void writeBit(boolean bit) {
         buffer <<= 1;
-        if (x) {
+        if (bit) {
             buffer |= 1;
         }
 
@@ -26,18 +27,13 @@ public class FileBitOutputStream implements BitOutputStream {
     }
 
     @Override
-    public void flush() {
+    public void close() {
         clearBuffer();
         try {
             out.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void close() {
-        flush();
         try {
             out.close();
         } catch (IOException e) {

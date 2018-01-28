@@ -8,6 +8,7 @@ import com.giljulio.compression.text.compressor.writer.BinaryFileWriter;
 import com.giljulio.compression.text.compressor.writer.CompressorWriter;
 import com.giljulio.compression.text.compressor.writer.StringWriter;
 import com.giljulio.compression.text.decompressor.Decompressor;
+import com.giljulio.compression.text.decompressor.reader.BinaryFileDecompressReader;
 import com.giljulio.compression.text.decompressor.reader.DecompressReader;
 import com.giljulio.compression.text.decompressor.writer.DecompressWriter;
 import com.giljulio.compression.text.decompressor.writer.StringDecompressWriter;
@@ -100,6 +101,18 @@ public final class Crunch {
      */
     public String decompress(DecompressReader source) {
         return decompress(source, new StringDecompressWriter());
+    }
+
+    /**
+     * Decompress stream from {@link File} to in-memory {@link String }
+     *
+     * @param source file to decompress
+     *
+     * @return decompressed text
+     * @throws FileNotFoundException when the source is not found
+     */
+    public String decompress(File source) throws FileNotFoundException {
+        return decompress(new BinaryFileDecompressReader(source));
     }
 
     public int getBufferSize() {

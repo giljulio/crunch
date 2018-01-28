@@ -15,15 +15,15 @@ public interface ReaderItem {
     }
 
     class Reference implements ReaderItem {
-        private final int offset;
+        private final short offset;
         private final int length;
 
-        public Reference(int offset, int length) {
+        public Reference(short offset, int length) {
             this.offset = offset;
             this.length = length;
         }
 
-        public int getOffset() {
+        public short getOffset() {
             return offset;
         }
 

@@ -29,18 +29,19 @@ public class Decompressor<T> {
             if (readerItem instanceof ReaderItem.Character) {
                 ReaderItem.Character item = (ReaderItem.Character) readerItem;
                 write(item.getCharacter());
+                position++;
             } else if (readerItem instanceof ReaderItem.Reference) {
                 ReaderItem.Reference item = (ReaderItem.Reference) readerItem;
                 int startIndex = position + item.getOffset();
                 for (int i = startIndex; i < startIndex + item.getLength(); i++) {
                     int index = i - characterBufferStartIndex;
                     write(characterBuffer.get(index));
+                    position++;
                 }
             } else {
                 return writer.output();
             }
             cleanBuffer();
-            position++;
         }
     }
 
@@ -57,3 +58,5 @@ public class Decompressor<T> {
     }
 
 }
+
+// [0, 0, 0, 0, 0, 1, 0, 1]

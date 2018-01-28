@@ -15,4 +15,9 @@ class MockDecompressReader implements DecompressReader {
     public ReaderItem read() {
         return items.length > position ? items[position++] : null;
     }
+
+    @Override
+    public void close() {
+        // no-op
+    }
 }

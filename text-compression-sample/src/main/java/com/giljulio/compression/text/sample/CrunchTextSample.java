@@ -36,6 +36,10 @@ public class CrunchTextSample {
         smallSearchCharacterBuffer();
 
         stringToFile();
+
+        System.out.println(DIVIDER);
+
+        fileToString();
     }
 
     private static void smallInput() {
@@ -73,5 +77,12 @@ public class CrunchTextSample {
     private static void stringToFile() throws FileNotFoundException {
         File file = new File("./test.bin");
         new Crunch.Builder().build().compress(INPUT_TEXT, file);
+    }
+
+    private static void fileToString() throws FileNotFoundException {
+        Crunch crunch = new Crunch.Builder().build();
+
+        File file = new File("./test.bin");
+        System.out.println(crunch.decompress(file));
     }
 }
