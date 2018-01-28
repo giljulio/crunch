@@ -4,6 +4,9 @@ import com.giljulio.compression.text.Crunch;
 import com.giljulio.compression.text.compressor.reader.StringReader;
 import com.giljulio.compression.text.compressor.writer.StringWriter;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+
 public class CrunchTextSample {
 
     private static final String INPUT_TEXT = "she sells sea shells on the sea shore";
@@ -21,7 +24,7 @@ public class CrunchTextSample {
             "ostraca, wooden writing boards, monumental stone edifices and coffins. Hidden caches of literature, buried f" +
             "or thousands of years, have been discovered in settlements on the dry desert margins of Egyptian civilization.";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         smallInput();
 
         System.out.println(DIVIDER);
@@ -31,6 +34,8 @@ public class CrunchTextSample {
         System.out.println(DIVIDER);
 
         smallSearchCharacterBuffer();
+
+        stringToFile();
     }
 
     private static void smallInput() {
@@ -63,5 +68,10 @@ public class CrunchTextSample {
 
         System.out.println(INPUT_TEXT);
         System.out.println(compressedOutput);
+    }
+
+    private static void stringToFile() throws FileNotFoundException {
+        File file = new File("./test.bin");
+        new Crunch.Builder().build().compress(INPUT_TEXT, file);
     }
 }

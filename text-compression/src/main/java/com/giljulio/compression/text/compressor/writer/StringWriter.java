@@ -15,7 +15,7 @@ public final class StringWriter implements CompressorWriter<String> {
     }
 
     @Override
-    public void writeReference(int relativeOffset, int length) {
+    public void writeReference(short relativeOffset, int length) {
         output.append(START_BRACKET);
         int startIndex = raw.length() + relativeOffset;
         for (int i = 0; i < length; i++) {
@@ -24,6 +24,11 @@ public final class StringWriter implements CompressorWriter<String> {
             output.append(charAt);
         }
         output.append(END_BRACKET);
+    }
+
+    @Override
+    public int maxReferenceLength() {
+        return -1;
     }
 
     @Override

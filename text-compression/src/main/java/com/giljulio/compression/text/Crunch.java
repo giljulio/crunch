@@ -1,7 +1,13 @@
 package com.giljulio.compression.text;
 
 import com.giljulio.compression.text.compressor.reader.CompressorReader;
+import com.giljulio.compression.text.compressor.reader.PlainTextFileReader;
+import com.giljulio.compression.text.compressor.reader.StringReader;
+import com.giljulio.compression.text.compressor.writer.BinaryFileWriter;
 import com.giljulio.compression.text.compressor.writer.CompressorWriter;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 
 public final class Crunch {
 
@@ -14,9 +20,19 @@ public final class Crunch {
     }
 
     public <T> T compress(CompressorReader source, CompressorWriter<T> destination) {
-        Compressor<T> compressor = new Compressor<>(this, source, destination);
-        compressor.execute();
-        return destination.output();
+        return new Compressor<>(this, source, destination).execute();
+    }
+
+    public File compress(String text, File destination) throws FileNotFoundException {
+        StringReader reader = new StringReader(text);
+        BinaryFileWriter writer = new BinaryFileWriter(destination);
+        return compress(reader, writer);
+    }
+
+    public File compress(File source, File destination) throws FileNotFoundException {
+        PlainTextFileReader reader = new PlainTextFileReader(source);
+        BinaryFileWriter writer = new BinaryFileWriter(destination);
+        return compress(reader, writer);
     }
 
     public final static class Builder {
@@ -25,8 +41,11 @@ public final class Crunch {
         private int minimumCharacterReferenceLength = 3;
 
         public Builder searchCharacterBufferSize(int size) {
-            if (size <= 0) {
-                throw new IllegalArgumentException("SearchCharacterBufferSize must be > 0");
+            if (size < 3) {
+                throw new IllegalArgumentException("SearchCharacterBufferSize must be at least 3");
+            }
+            if (size > Short.MAX_VALUE) {
+                throw new IllegalArgumentException("SearchCharacterBufferSize must be less than " + Short.MAX_VALUE);
             }
             this.searchCharacterBufferSize = size;
             return this;

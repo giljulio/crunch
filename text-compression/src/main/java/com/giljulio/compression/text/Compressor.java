@@ -23,7 +23,7 @@ final class Compressor<T> {
         this.writer = writer;
     }
 
-    void execute() {
+    T execute() {
         if (readerCount != 0) {
             throw new IllegalStateException(".compress() must only be executed once.");
         }
@@ -52,7 +52,10 @@ final class Compressor<T> {
                 characterBuffer.add(character);
             } else {
                 int offset = maxStartIndex - currentIndex;
-                writer.writeReference(offset, maxLength);
+                if (offset > Short.MAX_VALUE) {
+                    throw new IllegalStateException("Offset " + offset + " larger than " + Short.MAX_VALUE);
+                }
+                writer.writeReference((short) offset, maxLength);
                 currentIndex += maxLength;
                 for (int i = 0; i < maxLength; i++) {
                     Character firstCharacter = readerBuffer.removeFirst();
@@ -61,6 +64,9 @@ final class Compressor<T> {
             }
             cleanCharacterBuffer();
         }
+
+        reader.close();
+        return writer.output();
     }
 
     private int calculateMax(int searchIndex, int currentIndex) {

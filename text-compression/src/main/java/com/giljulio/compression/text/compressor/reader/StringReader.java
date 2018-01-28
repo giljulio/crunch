@@ -2,7 +2,7 @@ package com.giljulio.compression.text.compressor.reader;
 
 public final class StringReader implements CompressorReader {
 
-    private final char[] chars;
+    private char[] chars;
     private int index = 0;
 
     public StringReader(String input) {
@@ -15,5 +15,10 @@ public final class StringReader implements CompressorReader {
             return '\u0000';
         }
         return chars[index++];
+    }
+
+    @Override
+    public void close() {
+        chars = null;
     }
 }

@@ -4,7 +4,9 @@ public interface CompressorWriter<T> {
 
     void writeCharacter(char character);
 
-    void writeReference(int relativeOffset, int length);
+    void writeReference(short relativeOffset, int length);
+
+    int maxReferenceLength();
 
     T output();
 }

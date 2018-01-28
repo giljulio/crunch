@@ -14,12 +14,17 @@ public final class StringOffsetWriter implements CompressorWriter<String> {
     }
 
     @Override
-    public void writeReference(int relativeOffset, int length) {
+    public void writeReference(short relativeOffset, int length) {
         output.append(START_BRACKET);
         output.append(relativeOffset);
         output.append(COMER);
         output.append(length);
         output.append(END_BRACKET);
+    }
+
+    @Override
+    public int maxReferenceLength() {
+        return -1;
     }
 
     @Override
