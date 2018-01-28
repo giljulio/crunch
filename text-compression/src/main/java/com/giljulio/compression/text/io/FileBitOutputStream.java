@@ -1,4 +1,4 @@
-package com.giljulio.compression.text.util;
+package com.giljulio.compression.text.io;
 
 import java.io.*;
 

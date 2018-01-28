@@ -1,12 +1,15 @@
 package com.giljulio.compression.text.compressor.writer;
 
-import com.giljulio.compression.text.util.BitOutputStream;
-import com.giljulio.compression.text.util.FileBitOutputStream;
+import com.giljulio.compression.text.io.BitOutputStream;
+import com.giljulio.compression.text.io.FileBitOutputStream;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
+/**
+ * BinaryFileWriter to write binary to {@link File}. This writes on-the-fly.
+ */
 public class BinaryFileWriter implements CompressorWriter<File> {
 
     private final static int MAX_REFERENCE_LENGTH = 66;
@@ -19,7 +22,7 @@ public class BinaryFileWriter implements CompressorWriter<File> {
         this.file = file;
     }
 
-    public BinaryFileWriter(BitOutputStream bitOutputStream) {
+    BinaryFileWriter(BitOutputStream bitOutputStream) {
         out = bitOutputStream;
     }
 

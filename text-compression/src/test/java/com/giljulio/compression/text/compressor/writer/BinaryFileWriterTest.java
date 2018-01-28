@@ -1,6 +1,6 @@
 package com.giljulio.compression.text.compressor.writer;
 
-import com.giljulio.compression.text.util.BitOutputStream;
+import com.giljulio.compression.text.io.BitOutputStream;
 import javafx.util.Pair;
 import org.junit.Before;
 import org.junit.Test;

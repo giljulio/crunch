@@ -2,6 +2,9 @@ package com.giljulio.compression.text.compressor.reader;
 
 import java.io.*;
 
+/**
+ * PlainTextFileReader is a {@link File } reader than reads data on-the-fly.
+ */
 public class PlainTextFileReader implements CompressorReader {
 
     private final BufferedReader reader;

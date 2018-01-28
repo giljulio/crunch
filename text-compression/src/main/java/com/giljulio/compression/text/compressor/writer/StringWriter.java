@@ -1,5 +1,14 @@
 package com.giljulio.compression.text.compressor.writer;
 
+/**
+ * An in-memory {@link String } writer.
+ *
+ * Example output:
+ *
+ * <blockquote><pre>
+ *     she sells( se)a (she)(lls )on t(he s)(ea s)hore
+ * </pre></blockquote>
+ */
 public final class StringWriter implements CompressorWriter<String> {
 
     private static final String START_BRACKET = "(";

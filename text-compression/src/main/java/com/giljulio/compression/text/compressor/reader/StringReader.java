@@ -1,5 +1,8 @@
 package com.giljulio.compression.text.compressor.reader;
 
+/**
+ * StringReader is a in-memory {@link String } reader.
+ */
 public final class StringReader implements CompressorReader {
 
     private char[] chars;

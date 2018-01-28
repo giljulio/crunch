@@ -1,5 +1,14 @@
 package com.giljulio.compression.text.compressor.writer;
 
+/**
+ * <p>StringOffsetWriter is useful for debugging offsets. Example output:</p>
+ *
+ * <blockquote><pre>
+ *     (0,'s')(0,'h'),(0,'e'),(0,' '),(0,'s'),(0,'e'),
+ *     (0,'l'),(0,'l'),(0,'s'),(0,' '),(1,-5,2),(0,'a'),
+ *     (0,' '),(1,-13,3),...
+ * </pre></blockquote>
+ */
 public final class StringOffsetWriter implements CompressorWriter<String> {
 
     private static final String START_BRACKET = "(";

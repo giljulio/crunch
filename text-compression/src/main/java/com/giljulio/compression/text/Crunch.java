@@ -19,16 +19,41 @@ public final class Crunch {
         this.minRefSize = minRefSize;
     }
 
+    /**
+     * Generic compress from {@link CompressorReader } to {@link CompressorWriter }
+     *
+     * @param source reader
+     * @param destination writer
+     * @return writer's output
+     */
     public <T> T compress(CompressorReader source, CompressorWriter<T> destination) {
         return new Compressor<>(this, source, destination).execute();
     }
 
+    /**
+     * Compresses in-memory {@link String } to a {@link File }
+     *
+     * @param text to compress
+     * @param destination to hold the compressed file
+     *
+     * @return file that contains the compressed text
+     * @throws FileNotFoundException if destination file does not exist
+     */
     public File compress(String text, File destination) throws FileNotFoundException {
         StringReader reader = new StringReader(text);
         BinaryFileWriter writer = new BinaryFileWriter(destination);
         return compress(reader, writer);
     }
 
+    /**
+     * Compress from a raw text file to a binary file
+     *
+     * @param source raw text file
+     * @param destination file to write the compressed binary
+     *
+     * @return file that is compressed
+     * @throws FileNotFoundException if source or destination files do not exist
+     */
     public File compress(File source, File destination) throws FileNotFoundException {
         PlainTextFileReader reader = new PlainTextFileReader(source);
         BinaryFileWriter writer = new BinaryFileWriter(destination);
