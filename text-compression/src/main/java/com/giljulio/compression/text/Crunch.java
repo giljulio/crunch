@@ -41,6 +41,10 @@ public final class Crunch {
         }
 
         public Crunch build() {
+            if (bufferSize < minimumCharacterReferenceLength) {
+                throw new IllegalArgumentException("SearchCharacterBufferSize (" + bufferSize + ") must be " +
+                        "larger than MinimumCharacterReferenceLength ( " + minimumCharacterReferenceLength + ")");
+            }
             return new Crunch(bufferSize, minimumCharacterReferenceLength);
         }
     }
