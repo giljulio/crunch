@@ -1,19 +1,24 @@
 package com.giljulio.compression.text;
 
+import com.giljulio.compression.text.compressor.Compressor;
 import com.giljulio.compression.text.compressor.reader.CompressorReader;
 import com.giljulio.compression.text.compressor.reader.PlainTextFileReader;
 import com.giljulio.compression.text.compressor.reader.StringReader;
 import com.giljulio.compression.text.compressor.writer.BinaryFileWriter;
 import com.giljulio.compression.text.compressor.writer.CompressorWriter;
 import com.giljulio.compression.text.compressor.writer.StringWriter;
+import com.giljulio.compression.text.decompressor.Decompressor;
+import com.giljulio.compression.text.decompressor.reader.DecompressReader;
+import com.giljulio.compression.text.decompressor.writer.DecompressWriter;
+import com.giljulio.compression.text.decompressor.writer.StringDecompressWriter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 
 public final class Crunch {
 
-    final int bufferSize;
-    final int minRefSize;
+    private final int bufferSize;
+    private final int minRefSize;
 
     private Crunch(int bufferSize, int minRefSize) {
         this.bufferSize = bufferSize;
@@ -25,6 +30,7 @@ public final class Crunch {
      *
      * @param source reader
      * @param destination writer
+     *
      * @return writer's output
      */
     public <T> T compress(CompressorReader source, CompressorWriter<T> destination) {
@@ -59,7 +65,7 @@ public final class Crunch {
     }
 
     /**
-     * Streams compress from a raw text {@link File } to a binary {@link File }
+     * Streams compress from a plain text {@link File } to a binary format {@link File }
      *
      * @param source raw text file
      * @param destination file to write the compressed binary
@@ -71,6 +77,37 @@ public final class Crunch {
         PlainTextFileReader reader = new PlainTextFileReader(source);
         BinaryFileWriter writer = new BinaryFileWriter(destination);
         return compress(reader, writer);
+    }
+
+    /**
+     * Generic decompress from {@link DecompressReader } to {@link DecompressWriter<T> }
+     *
+     * @param source reader
+     * @param destination writer
+     *
+     * @return writer's output
+     */
+    public <T> T decompress(DecompressReader source, DecompressWriter<T> destination) {
+        return new Decompressor<>(this, source, destination).execute();
+    }
+
+    /**
+     * Decompress to in-memory {@link String }
+     *
+     * @param source reader
+     *
+     * @return decompressed string
+     */
+    public String decompress(DecompressReader source) {
+        return decompress(source, new StringDecompressWriter());
+    }
+
+    public int getBufferSize() {
+        return bufferSize;
+    }
+
+    public int getMinRefSize() {
+        return minRefSize;
     }
 
     public final static class Builder {

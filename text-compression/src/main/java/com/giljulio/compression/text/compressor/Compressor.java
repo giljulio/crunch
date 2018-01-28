@@ -1,11 +1,12 @@
-package com.giljulio.compression.text;
+package com.giljulio.compression.text.compressor;
 
+import com.giljulio.compression.text.Crunch;
 import com.giljulio.compression.text.compressor.reader.CompressorReader;
 import com.giljulio.compression.text.compressor.writer.CompressorWriter;
 
 import java.util.LinkedList;
 
-final class Compressor<T> {
+public final class Compressor<T> {
 
     private final Crunch crunch;
     private final CompressorReader reader;
@@ -17,13 +18,13 @@ final class Compressor<T> {
     private int readerCount = 0;
     private int characterBufferStartIndex = 0;
 
-    Compressor(Crunch crunch, CompressorReader reader, CompressorWriter<T> writer) {
+    public Compressor(Crunch crunch, CompressorReader reader, CompressorWriter<T> writer) {
         this.crunch = crunch;
         this.reader = reader;
         this.writer = writer;
     }
 
-    T execute() {
+    public T execute() {
         if (readerCount != 0) {
             throw new IllegalStateException(".compress() must only be executed once.");
         }
@@ -34,12 +35,12 @@ final class Compressor<T> {
             int maxStartIndex = -1;
             int maxLength = 0;
 
-            int relativeStartIndex = Math.max(currentIndex - crunch.bufferSize, 0);
-            int relativeEndIndex = currentIndex - crunch.minRefSize;
+            int relativeStartIndex = Math.max(currentIndex - crunch.getBufferSize(), 0);
+            int relativeEndIndex = currentIndex - crunch.getMinRefSize();
             for (int i = relativeStartIndex; i < relativeEndIndex; i++) {
                 int absoluteSearchIndex = i - characterBufferStartIndex;
                 int length = calculateMax(absoluteSearchIndex, currentIndex);
-                if (length > maxLength && length >= crunch.minRefSize) {
+                if (length > maxLength && length >= crunch.getMinRefSize()) {
                     maxStartIndex = i;
                     maxLength = length;
                 }
@@ -93,7 +94,7 @@ final class Compressor<T> {
     }
 
     private void cleanCharacterBuffer() {
-        while (characterBuffer.size() > crunch.bufferSize) {
+        while (characterBuffer.size() > crunch.getBufferSize()) {
             characterBuffer.removeFirst();
             characterBufferStartIndex++;
         }
