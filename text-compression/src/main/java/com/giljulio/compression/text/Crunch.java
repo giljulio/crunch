@@ -15,14 +15,14 @@ public final class Crunch {
 
     public <T> T compress(CrunchReader source, CrunchWriter<T> destination) {
         Compressor<T> compressor = new Compressor<>(this, source, destination);
-        compressor.compress();
+        compressor.execute();
         return destination.output();
     }
 
     public final static class Builder {
 
         private int bufferSize = 256;
-        private int minimumCharacterReferenceSize = 3;
+        private int minimumCharacterReferenceLength = 3;
 
         public Builder searchCharacterBufferSize(int size) {
             if (size <= 0) {
@@ -32,16 +32,16 @@ public final class Crunch {
             return this;
         }
 
-        public Builder minimumCharacterReferenceSize(int size) {
-            if (size <= 0) {
-                throw new IllegalArgumentException("MinimumCharacterReferenceSize must be > 0");
+        public Builder minimumCharacterReferenceLength(int length) {
+            if (length <= 0) {
+                throw new IllegalArgumentException("MinimumCharacterReferenceLength must be > 0");
             }
-            this.minimumCharacterReferenceSize = size;
+            this.minimumCharacterReferenceLength = length;
             return this;
         }
 
         public Crunch build() {
-            return new Crunch(bufferSize, minimumCharacterReferenceSize);
+            return new Crunch(bufferSize, minimumCharacterReferenceLength);
         }
     }
 }

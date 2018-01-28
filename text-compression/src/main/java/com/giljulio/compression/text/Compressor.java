@@ -4,6 +4,7 @@ import com.giljulio.compression.text.reader.CrunchReader;
 import com.giljulio.compression.text.writer.CrunchWriter;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 final class Compressor<T> {
 
@@ -11,8 +12,9 @@ final class Compressor<T> {
     private final CrunchReader reader;
     private final CrunchWriter<T> writer;
 
-    private int readerIndex = 0;
-    ArrayList<Character> characters = new ArrayList<>();
+    private int readerCount = 0;
+    private final ArrayList<Character> characters = new ArrayList<>();
+    private final LinkedList<Character> readerBuffer = new LinkedList<>();
 
     Compressor(Crunch crunch, CrunchReader reader, CrunchWriter<T> writer) {
         this.crunch = crunch;
@@ -21,8 +23,8 @@ final class Compressor<T> {
     }
 
     //''she sells sea shells on the sea shore''
-    void compress() {
-        if (readerIndex != 0) {
+    void execute() {
+        if (readerCount != 0) {
             throw new IllegalStateException(".compress() must only be executed once.");
         }
 
@@ -42,10 +44,14 @@ final class Compressor<T> {
             if (maxStartIndex == -1) {
                 writer.writeCharacter(character);
                 currentIndex++;
+                readerBuffer.removeFirst();
             } else {
                 int offset = maxStartIndex - currentIndex;
                 writer.writeReference(offset, maxLength);
                 currentIndex += maxLength;
+                for (int i = 0; i < maxLength; i++) {
+                    readerBuffer.removeFirst();
+                }
             }
         }
     }
@@ -60,13 +66,14 @@ final class Compressor<T> {
     }
 
     private char getCharacterAt(int index) {
-        if (characters.size() > index) {
-            return characters.get(index);
+        if (readerCount - readerBuffer.size() <= index && readerCount > index) {
+            return readerBuffer.get(index - readerCount + readerBuffer.size());
         }
         while (true) {
             char character = reader.read();
             characters.add(character);
-            if (index == readerIndex++) {
+            readerBuffer.add(character);
+            if (index == readerCount++) {
                 return character;
             }
         }

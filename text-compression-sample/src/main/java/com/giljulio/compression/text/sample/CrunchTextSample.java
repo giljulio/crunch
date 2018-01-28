@@ -11,7 +11,7 @@ public class CrunchTextSample {
     public static void main(String[] args) {
         Crunch crunch = new Crunch.Builder()
                 .searchCharacterBufferSize(1024)
-                .minimumCharacterReferenceSize(3)
+                .minimumCharacterReferenceLength(3)
                 .build();
 
         String compressedOutput = crunch.compress(new StringReader(INPUT_TEXT), new StringWriter());
