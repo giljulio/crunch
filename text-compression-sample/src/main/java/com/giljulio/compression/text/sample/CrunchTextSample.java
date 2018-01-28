@@ -40,6 +40,19 @@ public class CrunchTextSample {
         System.out.println(DIVIDER);
 
         fileToString();
+
+        System.out.println(DIVIDER);
+
+        fileToFile();
+    }
+
+    private static void fileToFile() throws FileNotFoundException {
+        Crunch crunch = new Crunch.Builder().build();
+
+        File source = new File("./test.bin");
+        File destination = new File("./test.txt");
+
+        crunch.decompress(source, destination);
     }
 
     private static void smallInput() {
