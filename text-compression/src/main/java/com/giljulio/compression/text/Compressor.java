@@ -1,22 +1,23 @@
 package com.giljulio.compression.text;
 
-import com.giljulio.compression.text.reader.CrunchReader;
-import com.giljulio.compression.text.writer.CrunchWriter;
+import com.giljulio.compression.text.compressor.reader.CompressorReader;
+import com.giljulio.compression.text.compressor.writer.CompressorWriter;
 
 import java.util.LinkedList;
 
 final class Compressor<T> {
 
     private final Crunch crunch;
-    private final CrunchReader reader;
-    private final CrunchWriter<T> writer;
+    private final CompressorReader reader;
+    private final CompressorWriter<T> writer;
 
-    private int readerCount = 0;
     private final LinkedList<Character> characterBuffer = new LinkedList<>();
-    private int characterBufferStartIndex = 0;
     private final LinkedList<Character> readerBuffer = new LinkedList<>();
 
-    Compressor(Crunch crunch, CrunchReader reader, CrunchWriter<T> writer) {
+    private int readerCount = 0;
+    private int characterBufferStartIndex = 0;
+
+    Compressor(Crunch crunch, CompressorReader reader, CompressorWriter<T> writer) {
         this.crunch = crunch;
         this.reader = reader;
         this.writer = writer;
@@ -34,11 +35,11 @@ final class Compressor<T> {
             int maxLength = 0;
 
             int relativeStartIndex = Math.max(currentIndex - crunch.bufferSize, 0);
-            int relativeEndIndex = currentIndex - crunch.minimumCharacterReferenceSize;
+            int relativeEndIndex = currentIndex - crunch.minRefSize;
             for (int i = relativeStartIndex; i < relativeEndIndex; i++) {
                 int absoluteSearchIndex = i - characterBufferStartIndex;
                 int length = calculateMax(absoluteSearchIndex, currentIndex);
-                if (length > maxLength && length >= crunch.minimumCharacterReferenceSize) {
+                if (length > maxLength && length >= crunch.minRefSize) {
                     maxStartIndex = i;
                     maxLength = length;
                 }

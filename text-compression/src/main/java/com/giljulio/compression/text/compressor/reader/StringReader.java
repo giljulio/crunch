@@ -1,6 +1,6 @@
-package com.giljulio.compression.text.reader;
+package com.giljulio.compression.text.compressor.reader;
 
-public final class StringReader implements CrunchReader {
+public final class StringReader implements CompressorReader {
 
     private final char[] chars;
     private int index = 0;

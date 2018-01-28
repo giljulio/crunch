@@ -1,8 +1,8 @@
 package com.giljulio.compression.text.sample;
 
 import com.giljulio.compression.text.Crunch;
-import com.giljulio.compression.text.reader.StringReader;
-import com.giljulio.compression.text.writer.StringWriter;
+import com.giljulio.compression.text.compressor.reader.StringReader;
+import com.giljulio.compression.text.compressor.writer.StringWriter;
 
 public class CrunchTextSample {
 

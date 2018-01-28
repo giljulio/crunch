@@ -1,19 +1,19 @@
 package com.giljulio.compression.text;
 
-import com.giljulio.compression.text.reader.CrunchReader;
-import com.giljulio.compression.text.writer.CrunchWriter;
+import com.giljulio.compression.text.compressor.reader.CompressorReader;
+import com.giljulio.compression.text.compressor.writer.CompressorWriter;
 
 public final class Crunch {
 
     final int bufferSize;
-    final int minimumCharacterReferenceSize;
+    final int minRefSize;
 
-    private Crunch(int bufferSize, int minimumCharacterReferenceSize) {
+    private Crunch(int bufferSize, int minRefSize) {
         this.bufferSize = bufferSize;
-        this.minimumCharacterReferenceSize = minimumCharacterReferenceSize;
+        this.minRefSize = minRefSize;
     }
 
-    public <T> T compress(CrunchReader source, CrunchWriter<T> destination) {
+    public <T> T compress(CompressorReader source, CompressorWriter<T> destination) {
         Compressor<T> compressor = new Compressor<>(this, source, destination);
         compressor.execute();
         return destination.output();
@@ -21,14 +21,14 @@ public final class Crunch {
 
     public final static class Builder {
 
-        private int bufferSize = 256;
+        private int searchCharacterBufferSize = 256;
         private int minimumCharacterReferenceLength = 3;
 
         public Builder searchCharacterBufferSize(int size) {
             if (size <= 0) {
                 throw new IllegalArgumentException("SearchCharacterBufferSize must be > 0");
             }
-            this.bufferSize = size;
+            this.searchCharacterBufferSize = size;
             return this;
         }
 
@@ -41,11 +41,14 @@ public final class Crunch {
         }
 
         public Crunch build() {
-            if (bufferSize < minimumCharacterReferenceLength) {
-                throw new IllegalArgumentException("SearchCharacterBufferSize (" + bufferSize + ") must be " +
-                        "larger than MinimumCharacterReferenceLength ( " + minimumCharacterReferenceLength + ")");
+            if (searchCharacterBufferSize < minimumCharacterReferenceLength) {
+                throw new IllegalArgumentException("SearchCharacterBufferSize " +
+                        "(" + searchCharacterBufferSize + ") must be equal or " +
+                        "larger than MinimumCharacterReferenceLength " +
+                        "( " + minimumCharacterReferenceLength + ")");
             }
-            return new Crunch(bufferSize, minimumCharacterReferenceLength);
+
+            return new Crunch(searchCharacterBufferSize, minimumCharacterReferenceLength);
         }
     }
 }

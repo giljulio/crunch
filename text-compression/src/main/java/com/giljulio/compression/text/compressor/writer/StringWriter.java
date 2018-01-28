@@ -1,6 +1,6 @@
-package com.giljulio.compression.text.writer;
+package com.giljulio.compression.text.compressor.writer;
 
-public final class StringWriter implements CrunchWriter<String> {
+public final class StringWriter implements CompressorWriter<String> {
 
     private static final String START_BRACKET = "(";
     private static final String END_BRACKET = ")";

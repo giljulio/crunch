@@ -1,6 +1,6 @@
-package com.giljulio.compression.text.writer;
+package com.giljulio.compression.text.compressor.writer;
 
-public interface CrunchWriter<T> {
+public interface CompressorWriter<T> {
 
     void writeCharacter(char character);
 
