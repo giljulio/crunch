@@ -3,6 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/crunch.iml" filepath="$PROJECT_DIR$/.idea/modules/crunch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/crunch-cli.iml" filepath="$PROJECT_DIR$/.idea/modules/crunch-cli.iml" group="crunch-cli" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/crunch-cli/crunch-cli_main.iml" filepath="$PROJECT_DIR$/.idea/modules/crunch-cli/crunch-cli_main.iml" group="crunch-cli" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/crunch-cli/crunch-cli_test.iml" filepath="$PROJECT_DIR$/.idea/modules/crunch-cli/crunch-cli_test.iml" group="crunch-cli" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/crunch-core/crunch-core.iml" filepath="$PROJECT_DIR$/.idea/modules/crunch-core/crunch-core.iml" group="crunch-core" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/crunch-core/crunch-core_main.iml" filepath="$PROJECT_DIR$/.idea/modules/crunch-core/crunch-core_main.iml" group="crunch-core" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/crunch-core/crunch-core_test.iml" filepath="$PROJECT_DIR$/.idea/modules/crunch-core/crunch-core_test.iml" group="crunch-core" />
