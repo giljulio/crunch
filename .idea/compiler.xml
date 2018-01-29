@@ -2,8 +2,12 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="crunch-core_main" target="1.8" />
+      <module name="crunch-core_test" target="1.8" />
       <module name="crunch-crunch_main" target="1.8" />
       <module name="crunch-crunch_test" target="1.8" />
+      <module name="crunch-sample_main" target="1.8" />
+      <module name="crunch-sample_test" target="1.8" />
       <module name="crunch_main" target="1.8" />
       <module name="crunch_test" target="1.8" />
       <module name="text-compression-sample_main" target="1.8" />

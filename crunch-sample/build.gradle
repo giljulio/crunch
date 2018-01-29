@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    compile project(":text-compression")
+    compile project(":crunch-core")
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
