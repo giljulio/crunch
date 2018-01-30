@@ -33,7 +33,6 @@ public class BinaryFileWriterTest {
 
         int position = 0;
         int charPosition = 0;
-        System.out.println(bitOutputStream.bits);
         while (characters.length > charPosition) {
             if (bitOutputStream.isZero(position++)) {
                 char c = readChar(position);
@@ -56,7 +55,6 @@ public class BinaryFileWriterTest {
 
         int position = 0;
         int itemCount = 0;
-        System.out.println(bitOutputStream.bits);
         while (itemCount < 6) {
             if (bitOutputStream.isZero(position)) {
                 position++;

@@ -1,5 +1,6 @@
 package com.giljulio.crunch.text;
 
+import com.giljulio.crunch.text.util.CircularQueue;
 import org.junit.Before;
 import org.junit.Test;
 

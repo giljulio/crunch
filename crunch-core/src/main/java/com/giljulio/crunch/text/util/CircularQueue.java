@@ -1,6 +1,7 @@
-package com.giljulio.crunch.text;
+package com.giljulio.crunch.text.util;
 
 import java.nio.BufferOverflowException;
+import java.nio.BufferUnderflowException;
 
 public class CircularQueue<T> {
 
@@ -14,6 +15,9 @@ public class CircularQueue<T> {
     @SuppressWarnings("unchecked")
     public T get(int index) {
         int i = absoluteIndex(index);
+        if (i >= size()) {
+            throw new IndexOutOfBoundsException();
+        }
         return (T) elements[i];
     }
 
@@ -26,6 +30,9 @@ public class CircularQueue<T> {
     }
 
     public void removeLast() {
+        if (size() == 0) {
+            throw new BufferUnderflowException();
+        }
         elements[tail++ % elements.length] = null;
     }
 

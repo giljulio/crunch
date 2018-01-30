@@ -1,6 +1,6 @@
 package com.giljulio.crunch.text.compressor;
 
-import com.giljulio.crunch.text.CircularQueue;
+import com.giljulio.crunch.text.util.CircularQueue;
 import com.giljulio.crunch.text.Crunch;
 import com.giljulio.crunch.text.compressor.reader.CompressorReader;
 import com.giljulio.crunch.text.compressor.writer.CompressorWriter;
