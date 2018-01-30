@@ -1,5 +1,6 @@
 package com.giljulio.crunch.text.compressor;
 
+import com.giljulio.crunch.text.CircularQueue;
 import com.giljulio.crunch.text.Crunch;
 import com.giljulio.crunch.text.compressor.reader.CompressorReader;
 import com.giljulio.crunch.text.compressor.writer.CompressorWriter;
@@ -12,16 +13,16 @@ public final class Compressor<T> {
     private final CompressorReader reader;
     private final CompressorWriter<T> writer;
 
-    private final LinkedList<Character> characterBuffer = new LinkedList<>();
+    private final CircularQueue<Character> searchBuffer;
     private final LinkedList<Character> readerBuffer = new LinkedList<>();
 
     private int readerCount = 0;
-    private int characterBufferStartIndex = 0;
 
     public Compressor(Crunch crunch, CompressorReader reader, CompressorWriter<T> writer) {
         this.crunch = crunch;
         this.reader = reader;
         this.writer = writer;
+        this.searchBuffer = new CircularQueue<>(crunch.getBufferSize());
     }
 
     public T execute() {
@@ -35,35 +36,32 @@ public final class Compressor<T> {
             int maxStartIndex = -1;
             int maxLength = 0;
 
-            int relativeStartIndex = Math.max(currentIndex - crunch.getBufferSize(), 0);
-            int relativeEndIndex = currentIndex - crunch.getMinRefSize();
-            for (int i = relativeStartIndex; i < relativeEndIndex; i++) {
-                int absoluteSearchIndex = i - characterBufferStartIndex;
-                int length = calculateMax(absoluteSearchIndex, currentIndex);
+            // Search for largest match
+            for (int i = 0; i < searchBuffer.size() - crunch.getMinRefSize(); i++) {
+                int length = calculateMax(i, currentIndex);
                 if (length > maxLength && length >= crunch.getMinRefSize()) {
-                    maxStartIndex = i;
+                    maxStartIndex = currentIndex + (i - searchBuffer.size());
                     maxLength = length;
                 }
             }
 
+            trimSearchBuffer(maxLength);
+
+            // write character or reference
             if (maxStartIndex == -1) {
                 writer.writeCharacter(character);
                 currentIndex++;
                 readerBuffer.removeFirst();
-                characterBuffer.add(character);
+                searchBuffer.add(character);
             } else {
                 int offset = maxStartIndex - currentIndex;
-                if (offset > Short.MAX_VALUE) {
-                    throw new IllegalStateException("Offset " + offset + " larger than " + Short.MAX_VALUE);
-                }
                 writer.writeReference((short) offset, maxLength);
                 currentIndex += maxLength;
                 for (int i = 0; i < maxLength; i++) {
                     Character firstCharacter = readerBuffer.removeFirst();
-                    characterBuffer.add(firstCharacter);
+                    searchBuffer.add(firstCharacter);
                 }
             }
-            cleanCharacterBuffer();
         }
 
         reader.close();
@@ -72,10 +70,9 @@ public final class Compressor<T> {
 
     private int calculateMax(int searchIndex, int currentIndex) {
         int counter = 0;
-        while (characterBuffer.size() > searchIndex &&
-                characterBuffer.get(searchIndex++) == getCharacterAt(currentIndex++) &&
+        while (searchBuffer.size() > searchIndex &&
+                searchBuffer.get(searchIndex++) == getCharacterAt(currentIndex++) &&
                 !isMaxReferenceLength(counter)) {
-            // TODO: characterBuffer.get(searchIndex) is very inefficient. Replace with custom circular buffer
             counter++;
         }
         return counter;
@@ -86,8 +83,10 @@ public final class Compressor<T> {
     }
 
     private char getCharacterAt(int index) {
-        if (readerCount - readerBuffer.size() <= index && readerCount > index) {
-            return readerBuffer.get(index - readerCount + readerBuffer.size());
+        boolean inReadBuffer = readerCount - readerBuffer.size() <= index && readerCount > index;
+        if (inReadBuffer) {
+            int readerIndex = index - readerCount + readerBuffer.size();
+            return readerBuffer.get(readerIndex);
         }
         while (true) {
             char character = reader.read();
@@ -98,10 +97,9 @@ public final class Compressor<T> {
         }
     }
 
-    private void cleanCharacterBuffer() {
-        while (characterBuffer.size() > crunch.getBufferSize()) {
-            characterBuffer.removeFirst();
-            characterBufferStartIndex++;
+    private void trimSearchBuffer(int maxLength) {
+        while (crunch.getBufferSize() < searchBuffer.size() + Math.max(1, maxLength)) {
+            searchBuffer.removeLast();
         }
     }
 }
