@@ -34,28 +34,39 @@ public class CrunchTest {
     }
 
     @Test
-    public void given_compress_when_inputContainsNonAlphabetCharacters_expectCharacters() throws FileNotFoundException {
+    public void given_compress_when_inputContainsNonAlphabetCharacters_expectCharacters() {
         String output = underTest.compress("a\tb\tc\td\te\tf\tg\th\ti\tj\tk\tl\tm\tn\to\tp\tq\tr\ts\tt\tu\tv\tw\tx\ty\tz\n");
 
         assertEquals("a\tb\tc\td\te\tf\tg\th\ti\tj\tk\tl\tm\tn\to\tp\tq\tr\ts\tt\tu\tv\tw\tx\ty\tz\n", output);
     }
 
     @Test
-    public void given_compress_when_inputContainsNoReferences_expectCharacters() throws FileNotFoundException {
+    public void given_compress_when_inputContainsNoReferences_expectCharacters() {
         String output = underTest.compress("abcdefghijk");
 
         assertEquals("abcdefghijk", output);
     }
 
     @Test
-    public void given_compress_when_emptyInput_expectCharacters() throws FileNotFoundException {
+    public void given_compress_when_emptyInput_expectCharacters() {
         String output = underTest.compress("");
 
         assertEquals("", output);
     }
 
     @Test
-    public void given_compress_when_smallInput_expectCharacters() throws FileNotFoundException {
+    public void given_compress_when_smallInput_expectCharacters() {
+        String output = underTest.compress("she sells sea shells on the sea shore");
+
+        assertEquals("she sells( se)a (she)(lls )on t(he se)(a sh)ore", output);
+    }
+
+    @Test
+    public void given_compress_when_smallBuffer_compressedOutput() {
+        Crunch underTest = new Crunch.Builder()
+                .searchCharacterBufferSize(27)
+                .build();
+
         String output = underTest.compress("she sells sea shells on the sea shore");
 
         assertEquals("she sells( se)a (she)(lls )on t(he se)(a sh)ore", output);
