@@ -73,11 +73,16 @@ public final class Compressor<T> {
     private int calculateMax(int searchIndex, int currentIndex) {
         int counter = 0;
         while (characterBuffer.size() > searchIndex &&
-                characterBuffer.get(searchIndex++) == getCharacterAt(currentIndex++)) {
+                characterBuffer.get(searchIndex++) == getCharacterAt(currentIndex++) &&
+                !isMaxReferenceLength(counter)) {
             // TODO: characterBuffer.get(searchIndex) is very inefficient. Replace with custom circular buffer
             counter++;
         }
         return counter;
+    }
+
+    private boolean isMaxReferenceLength(int length) {
+        return length >= writer.maxReferenceLength() && writer.maxReferenceLength() != -1;
     }
 
     private char getCharacterAt(int index) {

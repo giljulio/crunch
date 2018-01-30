@@ -7,7 +7,7 @@ import com.giljulio.crunch.text.decompressor.writer.DecompressWriter;
 
 import java.util.LinkedList;
 
-public class Decompressor<T> {
+public final class Decompressor<T> {
 
     private final Crunch crunch;
     private final DecompressReader reader;
