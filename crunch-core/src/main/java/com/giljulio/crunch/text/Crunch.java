@@ -45,9 +45,8 @@ public final class Crunch {
      * @param source text to compress
      *
      * @return compressed text
-     * @throws FileNotFoundException if destination file does not exist
      */
-    public String compress(String source) throws FileNotFoundException {
+    public String compress(String source) {
         return compress(new StringReader(source), new StringWriter());
     }
 

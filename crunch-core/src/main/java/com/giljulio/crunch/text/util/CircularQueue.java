@@ -14,10 +14,10 @@ public class CircularQueue<T> {
 
     @SuppressWarnings("unchecked")
     public T get(int index) {
-        int i = absoluteIndex(index);
-        if (i >= size()) {
+        if (index >= size()) {
             throw new IndexOutOfBoundsException();
         }
+        int i = absoluteIndex(index);
         return (T) elements[i];
     }
 

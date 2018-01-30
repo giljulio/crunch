@@ -58,8 +58,8 @@ public class CircularQueueTest {
 
         queue.add("a");
         queue.removeLast();
-        queue.removeLast();
         queue.add("b");
+        queue.removeLast();
 
         assertEquals(0, queue.size());
     }
