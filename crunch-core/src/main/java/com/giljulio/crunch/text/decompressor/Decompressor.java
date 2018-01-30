@@ -41,7 +41,7 @@ public final class Decompressor<T> {
             } else {
                 return writer.output();
             }
-            cleanBuffer();
+            trimBuffer();
         }
     }
 
@@ -50,7 +50,7 @@ public final class Decompressor<T> {
         writer.write(character);
     }
 
-    private void cleanBuffer() {
+    private void trimBuffer() {
         while (characterBuffer.size() > crunch.getBufferSize()) {
             characterBuffer.removeFirst();
             characterBufferStartIndex++;
