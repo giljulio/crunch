@@ -4,8 +4,7 @@ import com.giljulio.crunch.text.Crunch;
 import com.giljulio.crunch.text.decompressor.model.ReaderItem;
 import com.giljulio.crunch.text.decompressor.reader.DecompressReader;
 import com.giljulio.crunch.text.decompressor.writer.DecompressWriter;
-
-import java.util.LinkedList;
+import com.giljulio.crunch.text.util.CircularQueue;
 
 public final class Decompressor<T> {
 
@@ -13,13 +12,14 @@ public final class Decompressor<T> {
     private final DecompressReader reader;
     private final DecompressWriter<T> writer;
 
-    private final LinkedList<Character> characterBuffer = new LinkedList<>();
+    private final CircularQueue<Character> characterBuffer;
     private int characterBufferStartIndex = 0;
 
     public Decompressor(Crunch crunch, DecompressReader reader, DecompressWriter<T> writer) {
         this.crunch = crunch;
         this.reader = reader;
         this.writer = writer;
+        this.characterBuffer = new CircularQueue<>(crunch.getBufferSize());
     }
 
     public T execute() {
@@ -41,18 +41,18 @@ public final class Decompressor<T> {
             } else {
                 return writer.output();
             }
-            trimBuffer();
         }
     }
 
     private void write(Character character) {
+        trimBuffer();
         characterBuffer.add(character);
         writer.write(character);
     }
 
     private void trimBuffer() {
-        while (characterBuffer.size() > crunch.getBufferSize()) {
-            characterBuffer.removeFirst();
+        while (characterBuffer.size() >= crunch.getBufferSize()) {
+            characterBuffer.removeLast();
             characterBufferStartIndex++;
         }
     }
