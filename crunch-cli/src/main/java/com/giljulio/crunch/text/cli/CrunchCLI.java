@@ -38,6 +38,7 @@ public class CrunchCLI {
     private static final String OPT_DECOMPRESS = "decompress";
     private static final String OPT_SOURCE_FILE = "sourceFile";
     private static final String OPT_DESTINATION_FILE = "destinationFile";
+    private static final String OPT_SEARCH_BUFFER_SIZE = "searchBufferSize";
     private static final String OPT_HELP = "help";
 
     static {
@@ -72,6 +73,13 @@ public class CrunchCLI {
                 .longOpt(OPT_HELP)
                 .desc("Help")
                 .build());
+
+        OPTIONS.addOption(Option.builder()
+                .longOpt(OPT_SEARCH_BUFFER_SIZE)
+                .argName("bufferSize")
+                .hasArg()
+                .desc("Use the same bufferSize to compress and decompress")
+                .build());
     }
 
     public static void main(String[] args) {
@@ -91,7 +99,14 @@ public class CrunchCLI {
                 return;
             }
 
-            Crunch crunch = new Crunch.Builder().build();
+            Crunch.Builder builder = new Crunch.Builder();
+
+            if (cmd.hasOption(OPT_SEARCH_BUFFER_SIZE)) {
+                Integer size = Integer.valueOf(cmd.getOptionValue(OPT_SEARCH_BUFFER_SIZE));
+                builder.searchCharacterBufferSize(size);
+            }
+
+            Crunch crunch = builder.build();
             System.out.println(execute(cmd, crunch));
 
         } catch (ParseException | FileNotFoundException e) {
