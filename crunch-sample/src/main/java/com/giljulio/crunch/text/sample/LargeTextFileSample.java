@@ -16,7 +16,10 @@ public class LargeTextFileSample {
         File plainTextFile = new File(PLAIN_TEXT_FILE_PATH);
         File compressedFile = new File(COMPRESSED_FILE_PATH);
         File decompressedFile = new File(DECOMPRESSED_FILE_PATH);
-        Crunch crunch = new Crunch.Builder().build();
+        Crunch crunch = new Crunch.Builder()
+                .minimumCharacterReferenceLength(3)
+                .searchCharacterBufferSize(1024)
+                .build();
 
         System.out.println("Plain text file: " + plainTextFile.length());
 
