@@ -1,5 +1,5 @@
 # Crunch
-Fast text compression/decompression for large text input. Constant memory footprint.  
+Fast string compression/decompression for large text input with a constant memory footprint.
 
 ## Usage
 
@@ -12,9 +12,21 @@ Crunch crunch = new Crunch.Builder()
 String compressed = crunch.compress("abc");
 String original = crunch.decompress(compressed);
 
-// file io
+// stream file
 File compressed = crunch.compress(file, compressedDestination);
 File decompressed = crunch.decrompress(compressed, decompressedDestination);
+```
+or in the comand line
+```
+usage: crunch
+    --compress <text>                 Compress source, either from a file
+                                      or text
+    --decompress                      Decompress source from a file
+    --destinationFile <destination>   File directory
+    --help                            Help
+    --searchBufferSize <bufferSize>   Use the same bufferSize to compress
+                                      and decompress
+    --sourceFile <sourceFile>         File directory
 ```
 
 ## Install

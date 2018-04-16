@@ -6,7 +6,9 @@ import com.giljulio.crunch.text.compressor.writer.StringWriter;
 
 public class SimpleStringSample {
 
-    private static final String INPUT_TEXT = "she sells sea shells on the sea shore";
+    private static final String INPUT_TEXT = "The mission of the Wikimedia Foundation is to empower and engage people " +
+            "around the world to collect and develop educational content under a free license or in the public domain," +
+            " and to disseminate it effectively and globally.";
 
     public static void main(String[] args) {
 

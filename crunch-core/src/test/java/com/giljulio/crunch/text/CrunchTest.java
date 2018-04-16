@@ -56,9 +56,9 @@ public class CrunchTest {
 
     @Test
     public void given_compress_when_smallInput_expectCharacters() {
-        String output = underTest.compress("she sells sea shells on the sea shore");
+        String output = underTest.compress("The mission of the Wikimedia Foundation is to empower and engage people around the world to collect and develop educational content under a free license or in the public domain, and to disseminate it effectively and globally.");
 
-        assertEquals("she sells( se)a (she)(lls )on t(he se)(a sh)ore", output);
+        assertEquals("The mission of t(he )Wikimedia Foundat(ion )is to empower and engage people ar(ound)( the )worl(d t)o collect( and )develop educ(ation)al( co)ntent (und)(er a) free license or in( the )pub(lic) domain,( and )(to )d(iss)eminate it eff(ect)i(vel)y( and )globally.", output);
     }
 
     @Test
@@ -67,8 +67,8 @@ public class CrunchTest {
                 .searchCharacterBufferSize(27)
                 .build();
 
-        String output = underTest.compress("she sells sea shells on the sea shore");
+        String output = underTest.compress("The mission of the Wikimedia Foundation is to empower and engage people around the world to collect and develop educational content under a free license or in the public domain, and to disseminate it effectively and globally.");
 
-        assertEquals("she sells( se)a (she)(lls )on t(he se)(a sh)ore", output);
+        assertEquals("The mission of t(he )Wikimedia Foundation is to empower and engage people arou(nd )the worl(d t)o collect a(nd )develop educational content under a free license or in the pub(lic) domain, and to disseminate it effectively and globally.", output);
     }
 }
